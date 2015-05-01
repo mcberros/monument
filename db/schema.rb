@@ -19,25 +19,26 @@ ActiveRecord::Schema.define(version: 20150501114426) do
   create_table "categories", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "name"
-    t.integer  "user_id"
+    t.string   "name",       null: false
+    t.integer  "user_id",    null: false
   end
 
   create_table "monument_collections", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "name"
-    t.integer  "user_id"
+    t.string   "name",       null: false
+    t.integer  "user_id",    null: false
   end
 
   create_table "monuments", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "name"
-    t.integer  "monument_collection_id"
+    t.string   "name",                                   null: false
+    t.text     "description"
+    t.integer  "monument_collection_id",                 null: false
     t.integer  "category_id"
-    t.boolean  "public"
-    t.boolean  "approved"
+    t.boolean  "public",                 default: false, null: false
+    t.boolean  "approved",               default: false, null: false
   end
 
   create_table "users", force: :cascade do |t|
