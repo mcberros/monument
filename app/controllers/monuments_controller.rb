@@ -7,6 +7,9 @@ class MonumentsController < ApplicationController
   end
 
   def show
+    if @monument.monument_collection.user != current_user
+      render status: 403, text: 'Forbidden monument'
+    end
   end
 
   def new
@@ -27,9 +30,16 @@ class MonumentsController < ApplicationController
   end
 
   def edit
+    if @monument.monument_collection.user != current_user
+      render status: 403, text: 'Forbidden monument'
+    end
   end
 
   def update
+    if @monument.monument_collection.user != current_user
+      render status: 403, text: 'Forbidden monument'
+    end
+
     if @monument.update monument_params
       redirect_to monuments_path, notice: 'Monument updated'
     else
@@ -38,6 +48,10 @@ class MonumentsController < ApplicationController
   end
 
   def destroy
+    if @monument.monument_collection.user != current_user
+      render status: 403, text: 'Forbidden monument'
+    end
+
     @monument.destroy
 
     redirect_to monuments_path, notice: 'Monument deleted'
