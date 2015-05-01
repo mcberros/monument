@@ -98,21 +98,21 @@ describe 'Monuments' do
 
   context 'Update monument' do
 
-      let!(:monument_collection_1) { create(:monument_collection, name: 'Winter', user: user_1) }
-      let!(:monument_1) { create(:monument, name: 'Cathedral of Sevilla', monument_collection: monument_collection_1) }
+    let!(:monument_collection_1) { create(:monument_collection, name: 'Winter', user: user_1) }
+    let!(:monument_1) { create(:monument, name: 'Cathedral of Sevilla', monument_collection: monument_collection_1) }
 
-	  	let!(:monument_collection_2) { create(:monument_collection, name: 'Granada', user: user_2) }
-			let!(:monument_2) { create(:monument, name: 'Acueducto', monument_collection: monument_collection_2) }
+  	let!(:monument_collection_2) { create(:monument_collection, name: 'Granada', user: user_2) }
+		let!(:monument_2) { create(:monument, name: 'Acueducto', monument_collection: monument_collection_2) }
 
-      before(:each) do
-        visit monuments_path
+    before(:each) do
+      visit monuments_path
 
-	      expect(page).to have_content('Cathedral of Sevilla')
+      expect(page).to have_content('Cathedral of Sevilla')
 
-	      click_link 'Edit'
+      click_link 'Edit'
 
-	      expect(page).to have_content('Edit Monument')
-      end
+      expect(page).to have_content('Edit Monument')
+    end
 
     it 'after updating with all the necessary data, the list of monuments is shown' do
 
