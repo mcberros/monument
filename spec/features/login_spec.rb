@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Users', :focus do
+describe 'Users' do
 
   let!(:user) { create(:user) }
 
