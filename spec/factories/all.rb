@@ -18,4 +18,9 @@ FactoryGirl.define do
     name 'Cathedral of Sevilla'
     monument_collection
   end
+
+  factory :category do
+    name 'Cathedrals'
+    user
+  end
 end
