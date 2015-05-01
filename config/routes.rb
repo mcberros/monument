@@ -7,9 +7,6 @@ Rails.application.routes.draw do
   resources :monuments
 
   resources :user_sessions
-  get 'user_sessions/new'
-  get 'user_sessions/create'
-  get 'user_sessions/destroy'
 
   resources :users
 

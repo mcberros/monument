@@ -1,11 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
-  skip_before_filter :require_login, only: [:index, :new, :create]
-
-  def index
-    @users = User.all
-  end
+  skip_before_filter :require_login, only: [:new, :create]
 
   def show
   end
@@ -21,7 +17,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      redirect_to :users, notice: 'User was successfully created'
+      redirect_to :root, notice: 'User was successfully created'
     else
       render :new
     end
