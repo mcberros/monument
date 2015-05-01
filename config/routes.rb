@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
 
-  root :to => 'users#index'
+  root :to => 'monument_collections#index'
+
+  resources :categories
+  resources :monument_collections
+  resources :monuments
 
   resources :user_sessions
   get 'user_sessions/new'
