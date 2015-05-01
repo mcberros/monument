@@ -3,7 +3,7 @@ class MonumentCollectionsController < ApplicationController
   before_action :find_monument_collection, only: [:show, :edit, :update, :destroy]
 
   def index
-    @monument_collections = MonumentCollection.all
+    @monument_collections = MonumentCollection.where(user_id: current_user.id)
   end
 
   def show
@@ -53,6 +53,6 @@ class MonumentCollectionsController < ApplicationController
   end
 
   def monument_collection_params
-    params.require(:monument_collection).permit(:name)
+    params.require(:monument_collection).permit(:name).merge({user_id: current_user.id})
   end
 end

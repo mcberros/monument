@@ -19,7 +19,7 @@ describe 'Monument Collections' do
 	    visit monument_collections_path
 
 	    expect(page).to have_content('Summer')
-	    #expect(page).not_to have_content('Winter')
+	    expect(page).not_to have_content('Winter')
 	  end
 	end
 
