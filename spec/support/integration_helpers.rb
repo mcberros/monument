@@ -4,6 +4,11 @@ module IntegrationHelpers
 	  fill_in 'Password', with: password
 	  click_button 'Login'
 	end
+
+	def accept_modal_window
+		alert = page.driver.browser.switch_to.alert
+		alert.accept
+	end
 end
 
 RSpec.configure do |c|
