@@ -25,6 +25,7 @@ describe 'Monument Collections' do
 
 	context 'showing a monument collection' do
   	let!(:monument_collection_1) { create(:monument_collection, name: 'Summer', user: user_1) }
+  	let!(:monument_collection_2) { create(:monument_collection, name: 'Winter', user: user_2) }
 
 	  it 'shows the monument collections for the logged user' do
 	    visit monument_collections_path
@@ -32,6 +33,13 @@ describe 'Monument Collections' do
 	    click_link 'Show'
 
 	    expect(page).to have_content('Summer')
+	  end
+
+	  it 'does not show a monument collection of other user' do
+	    visit monument_collection_path(monument_collection_2)
+
+	    expect(page).not_to have_content('Winter')
+      expect(page).to have_content('Forbidden')
 	  end
 	end
 
@@ -102,6 +110,17 @@ describe 'Monument Collections' do
 
 	    expect(page).to have_content("Name can't be blank")
 	    expect(page).to have_content('Edit Collection')
+	  end
+
+	  context 'when a user try to edit the collection of other user' do
+	  	let!(:monument_collection_2) { create(:monument_collection, name: 'Winter', user: user_2) }
+
+	  	it 'receives a forbidden response' do
+	  		visit edit_monument_collection_path(monument_collection_2)
+
+	  		expect(page).not_to have_content('Winter')
+      	expect(page).to have_content('Forbidden')
+	  	end
 	  end
 	end
 
