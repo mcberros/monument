@@ -30,9 +30,10 @@ describe 'Monuments' do
 
   context 'showing a monument' do
   	let!(:monument_collection_1) { create(:monument_collection, name: 'Summer - Sevilla', user: user_1) }
-	  let!(:monument_collection_2) { create(:monument_collection, name: 'Granada', user: user_2) }
+    let!(:category_1) { create(:category, name: 'Special', user: user_1) }
+    let!(:monument_1) { create(:monument, name: 'Cathedral of Sevilla', monument_collection: monument_collection_1, category: category_1) }
 
-    let!(:monument_1) { create(:monument, name: 'Cathedral of Sevilla', monument_collection: monument_collection_1) }
+    let!(:monument_collection_2) { create(:monument_collection, name: 'Granada', user: user_2) }
     let!(:monument_3) { create(:monument, name: 'Alhambra', monument_collection: monument_collection_2) }
 
     it 'shows the info for a monument' do
@@ -42,6 +43,7 @@ describe 'Monuments' do
 
       expect(page).to have_content('Cathedral of Sevilla')
       expect(page).to have_content('Summer - Sevilla')
+      expect(page).to have_content('Special')
       expect(page).to have_content('The third biggest cathedral in the world')
       expect(page).to have_content('false')
     end
@@ -69,6 +71,9 @@ describe 'Monuments' do
 	  context 'there is a monument_collection' do
 
 	  	let!(:monument_collection) { create :monument_collection, user: user_1 }
+      let!(:category) { create :category, name: 'Palaces', user: user_1 }
+
+      let!(:category_2) { create :category, name: 'Rivers', user: user_2 }
 
 	  	before(:each) do
 	  		visit monuments_path
@@ -77,8 +82,11 @@ describe 'Monuments' do
 
 	    it 'after creating with all the necessary data, the list of monument collections is shown' do
 
+        expect(page).not_to have_content('Rivers')
+
 	      fill_in 'Name', with: 'Alhambra'
 	      fill_in 'Description', with: 'Wonderful palace'
+        expect(page).to have_content('Palaces')
 	      check 'Public'
 
 	      click_button 'Create Monument'
