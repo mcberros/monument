@@ -1,0 +1,30 @@
+<%= form_for @monument do |f| %>
+    <% if @monument.errors.any? %>
+    <div>
+      <ul>
+      <% @monument.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div>
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div>
+    <%= f.label :description %><br>
+    <%= f.text_field :description %>
+  </div>
+  <div>
+    <%= f.label :monument_collection %><br>
+    <%= f.collection_select(:monument_collection_id, MonumentCollection.where(user_id: current_user.id), :id, :name) %>
+  </div>
+  <div>
+    <%= f.label :public %><br>
+    <%= f.check_box :public %>
+  </div>
+  <div>
+    <%= f.submit %>
+  </div>
+<% end %>
