@@ -3,7 +3,7 @@ class CreateMonument < ActiveRecord::Migration
     create_table :monuments do |t|
     	t.timestamps
     	t.string :name
-    	t.integer :collection_id
+    	t.integer :monument_collection_id
     	t.integer :category_id
     	t.boolean :public
     	t.boolean :approved

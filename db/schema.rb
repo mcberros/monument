@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 20150501114426) do
     t.integer  "user_id"
   end
 
-  create_table "collections", force: :cascade do |t|
+  create_table "monument_collections", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 20150501114426) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
-    t.integer  "collection_id"
+    t.integer  "monument_collection_id"
     t.integer  "category_id"
     t.boolean  "public"
     t.boolean  "approved"
