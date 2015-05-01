@@ -8,4 +8,5 @@ class User < ActiveRecord::Base
   validates :email, uniqueness: true
 
   has_many :monument_collections, dependent: :destroy
+  has_many :categories, dependent: :destroy
 end
