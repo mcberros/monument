@@ -6,4 +6,6 @@ class User < ActiveRecord::Base
   validates :password_confirmation, presence: true
 
   validates :email, uniqueness: true
+
+  has_many :monument_collections, dependent: :destroy
 end
