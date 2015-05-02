@@ -10,6 +10,7 @@ class MonumentsController < ApplicationController
     if @monument.monument_collection.user != current_user
       render status: 403, text: 'Forbidden monument'
     end
+    byebug
   end
 
   def new
@@ -25,13 +26,35 @@ class MonumentsController < ApplicationController
   def create
     is_finished = false
     session[:monument_params].deep_merge!(monument_params) unless params[:monument].nil?
+
+    images = {}
+    unless session[:monument_params]["pictures_attributes"].nil?
+      session[:monument_params]["pictures_attributes"].each_pair do |k, picture|
+        images[k] = picture["image"]
+        picture.delete("image")
+      end
+    end
+
     @monument = Monument.new session[:monument_params]
+
+    unless session[:monument_params]["pictures_attributes"].nil?
+      @monument.pictures.each_with_index do |picture_model, i|
+        picture_model.image = images[i.to_s]
+        session[:monument_params]["pictures_attributes"][i.to_s]["image"] = picture_model.image
+        #session[:image_processed_cached] = picture_model.image_original.url(:image_processed)
+      end
+    end
 
     @monument.current_step = session[:monument_step]
     if @monument.valid?
       if params[:previous_button]
         @monument.previous_step
       elsif @monument.last_step?
+        byebug
+        @monument.pictures.each_with_index do |picture_model, i|
+          picture_model.image = session[:monument_params]["pictures_attributes"][i.to_s]["image"]
+        end
+        byebug
         is_finished = @monument.save
       else
         @monument.next_step
@@ -61,6 +84,11 @@ class MonumentsController < ApplicationController
     is_finished = false
 
     session[:monument_params].deep_merge!(monument_params) unless params[:monument].nil?
+    unless session[:monument_params]["pictures_attributes"].nil?
+      session[:monument_params]["pictures_attributes"].each_value do |picture|
+        picture.delete("image")
+      end
+    end
 
     @monument.attributes = session[:monument_params]
 
@@ -105,6 +133,6 @@ class MonumentsController < ApplicationController
   end
 
   def monument_params
-    params.require(:monument).permit(:name, :description, :monument_collection_id, :category_id, :public, :previous_button, pictures_attributes: [ :id, :name, :description, :date, :_destroy ])
+    params.require(:monument).permit(:name, :description, :monument_collection_id, :category_id, :public, :previous_button, pictures_attributes: [ :id, :name, :description, :date, :_destroy, :image, :image_cache ])
   end
 end

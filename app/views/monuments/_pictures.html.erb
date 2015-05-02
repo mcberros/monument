@@ -8,10 +8,16 @@
     <%= builder.text_field :description, class: "form-control" %>
   </div>
   <div class="form-group">
+    <%= builder.label :image %><br>
+    <%= builder.file_field :image %>
+    <%= image_tag builder.object.image.thumb.url %>
+  </div>
+  <div class="form-group">
     <%= builder.label :date %><br>
     <%= builder.text_field :date, class: "form-control datepicker" %>
   </div>
   <%= builder.hidden_field :id %>
+  <%= builder.hidden_field :image_cache %>
   <%= builder.hidden_field :_destroy %>
   <%= link_to '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>'.html_safe, '#', class:'remove-link', title: 'Remove picture', data: { confirm: 'Are you sure?' } %>
 </div>
