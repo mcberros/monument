@@ -104,7 +104,7 @@ describe 'Monuments' do
 	  end
   end
 
-  context 'Update monument' do
+  context 'Update monument', :js do
 
     let!(:monument_collection_1) { create(:monument_collection, name: 'Winter', user: user_1) }
     let!(:monument_1) { create(:monument, name: 'Cathedral of Sevilla', monument_collection: monument_collection_1) }
@@ -117,7 +117,7 @@ describe 'Monuments' do
 
       expect(page).to have_content('Cathedral of Sevilla')
 
-      click_link 'Edit'
+      find('.glyphicon-pencil').click
 
       expect(page).to have_content('Edit Monument')
     end

@@ -78,7 +78,7 @@ describe 'Categories' do
 	  end
 	end
 
-	context 'Update Category' do
+	context 'Update Category', :js do
 
 		let!(:category_1) { create(:category, name: 'Cathedrals', user: user_1) }
 
@@ -87,7 +87,7 @@ describe 'Categories' do
 
 	    expect(page).to have_content('Cathedrals')
 
-	    click_link 'Edit'
+	    find('.glyphicon-pencil').click
 
 	    expect(page).to have_content('Edit Category')
 		end

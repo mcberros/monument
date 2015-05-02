@@ -78,7 +78,7 @@ describe 'Monument Collections' do
 	  end
 	end
 
-	context 'Update monument collection' do
+	context 'Update monument collection', :js do
 
 		let!(:monument_collection_1) { create(:monument_collection, name: 'Winter', user: user_1) }
 
@@ -87,7 +87,7 @@ describe 'Monument Collections' do
 
 	    expect(page).to have_content('Winter')
 
-	    click_link 'Edit'
+	    find('.glyphicon-pencil').click
 
 	    expect(page).to have_content('Edit Collection')
 		end
