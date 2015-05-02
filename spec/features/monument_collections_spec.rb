@@ -43,7 +43,7 @@ describe 'Monument Collections' do
 	  end
 	end
 
-	context 'Create new monument collection' do
+	context 'Create new monument collection', :js do
 
 		let!(:monument_collection_1) { create(:monument_collection, name: 'Winter', user: user_1) }
 
@@ -53,7 +53,7 @@ describe 'Monument Collections' do
 	    expect(page).to have_content('Winter')
 	    expect(page).not_to have_content('Summer 2015')
 
-	    click_link 'New Monument Collection'
+	    find('.glyphicon-plus').click
 
 	    expect(page).to have_content('New Collection')
 		end

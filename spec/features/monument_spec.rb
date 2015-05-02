@@ -56,12 +56,12 @@ describe 'Monuments' do
     end
   end
 
-  context 'Create new monument' do
+  context 'Create new monument', :js do
 
 	  context 'there is no monument collection' do
 	  	it 'it goes to the new monument_collection page' do
 	  		visit monuments_path
-	    	click_link 'New Monument'
+	    	find('.glyphicon-plus').click
 
     	  expect(page).to have_content('Please, create first a monument collection')
 	      expect(page).to have_content('New Collection')
@@ -77,7 +77,7 @@ describe 'Monuments' do
 
 	  	before(:each) do
 	  		visit monuments_path
-	    	click_link 'New Monument'
+	    	find('.glyphicon-plus').click
 	  	end
 
 	    it 'after creating with all the necessary data, the list of monument collections is shown' do

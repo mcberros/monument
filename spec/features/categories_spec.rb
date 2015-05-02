@@ -43,7 +43,7 @@ describe 'Categories' do
 	  end
 	end
 
-	context 'Create new category' do
+	context 'Create new category', :js do
 
 		let!(:category_1) { create(:category, name: 'Cathedrals', user: user_1) }
 
@@ -53,7 +53,7 @@ describe 'Categories' do
 	    expect(page).to have_content('Cathedrals')
 	    expect(page).not_to have_content('Palace')
 
-	    click_link 'New Category'
+	    find('.glyphicon-plus').click
 
 	    expect(page).to have_content('New Category')
 		end
