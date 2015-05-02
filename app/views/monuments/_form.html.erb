@@ -8,27 +8,10 @@
       </ul>
     </div>
   <% end %>
-  <div class="form-group">
-    <%= f.label :name %><br>
-    <%= f.text_field :name, class: "form-control" %>
-  </div>
-  <div class="form-group">
-    <%= f.label :description %><br>
-    <%= f.text_field :description, class: "form-control" %>
-  </div>
-  <div class="form-group">
-    <%= f.label :monument_collection %><br>
-    <%= f.collection_select(:monument_collection_id, MonumentCollection.where(user_id: current_user.id), :id, :name, {}, {:class=>'form-control'}) %>
-  </div>
-  <div class="form-group">
-    <%= f.label :category %><br>
-    <%= f.collection_select(:category_id, Category.where(user_id: current_user.id), :id, :name, {}, {:class=>'form-control'}) %>
-  </div>
-  <div class="checkbox">
-    <%= f.check_box :public %>
-    <%= f.label :public %>
-  </div>
+  <%= render "#{@monument.current_step}_step", :f => f %>
   <div>
-    <%= f.submit 'Save', class: 'btn btn-primary save-button' %>
+    <%= f.submit 'Next', class: 'btn btn-primary' unless @monument.last_step? %>
+    <%= f.submit 'Save', class: 'btn btn-primary' if @monument.last_step? %>
+    <%= f.submit "Back", :name => "previous_button" unless @monument.first_step?  %>
   </div>
 <% end %>

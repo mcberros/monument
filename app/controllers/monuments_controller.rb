@@ -16,16 +16,33 @@ class MonumentsController < ApplicationController
     if MonumentCollection.count == 0
       redirect_to new_monument_collection_path, notice: "Please, create first a monument collection"
     else
-      @monument = Monument.new
+      session[:monument_params] ||= {}
+      @monument = Monument.new(session[:monument_params])
+      @monument.current_step = session[:monument_step]
     end
   end
 
   def create
-    @monument = Monument.new monument_params
-    if @monument.save
-      redirect_to monuments_path, notice: 'Monument created'
-    else
+    is_finished = false
+    session[:monument_params].deep_merge!(monument_params) unless params[:monument].nil?
+    @monument = Monument.new session[:monument_params]
+    @monument.current_step = session[:monument_step]
+    if @monument.valid?
+      if params[:previous_button]
+        @monument.previous_step
+      elsif @monument.last_step?
+        is_finished = @monument.save
+      else
+        @monument.next_step
+      end
+      session[:monument_step] = @monument.current_step
+    end
+
+    unless is_finished
       render :new
+    else
+      session[:monument_step] = session[:monument_params] = nil
+      redirect_to monuments_path, notice: 'Monument created'
     end
   end
 
@@ -33,6 +50,10 @@ class MonumentsController < ApplicationController
     if @monument.monument_collection.user != current_user
       render status: 403, text: 'Forbidden monument'
     end
+
+    session[:monument_params] ||= {}
+    @monument.attributes = session[:monument_params]
+    @monument.current_step = session[:monument_step]
   end
 
   def update
@@ -40,11 +61,38 @@ class MonumentsController < ApplicationController
       render status: 403, text: 'Forbidden monument'
     end
 
-    if @monument.update monument_params
-      redirect_to monuments_path, notice: 'Monument updated'
-    else
-      render :edit
+    is_finished = false
+    session[:monument_params].deep_merge!(monument_params) unless params[:monument].nil?
+
+    @monument.attributes = session[:monument_params]
+
+    @monument.current_step = session[:monument_step]
+    if @monument.valid?
+      if params[:previous_button]
+        @monument.previous_step
+      elsif @monument.last_step?
+        is_finished = @monument.save
+      else
+        @monument.next_step
+      end
+      session[:monument_step] = @monument.current_step
     end
+
+    unless is_finished
+      render :edit
+    else
+      session[:monument_step] = session[:monument_params] = nil
+      redirect_to monuments_path, notice: 'Monument updated'
+    end
+
+
+
+
+    # if @monument.update monument_params
+    #   redirect_to monuments_path, notice: 'Monument updated'
+    # else
+    #   render :edit
+    # end
   end
 
   def destroy
@@ -64,6 +112,6 @@ class MonumentsController < ApplicationController
   end
 
   def monument_params
-    params.require(:monument).permit(:name, :description, :monument_collection_id, :category_id, :public)
+    params.require(:monument).permit(:name, :description, :monument_collection_id, :category_id, :public, :previous_button)
   end
 end
