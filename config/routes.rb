@@ -6,6 +6,12 @@ Rails.application.routes.draw do
   resources :monument_collections
   resources :monuments
 
+  resources :pictures, only: [:index] do
+    member do
+      post :approve
+    end
+  end
+
   resources :user_sessions
 
   resources :users
