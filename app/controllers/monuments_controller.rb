@@ -25,11 +25,11 @@ class MonumentsController < ApplicationController
 
   def create
     is_finished = false
-    images = {}
+    images = []
 
     unless params[:monument].nil? or params[:monument]["pictures_attributes"].nil?
       params[:monument]["pictures_attributes"].each_pair do |k, picture|
-        images[k] = picture["image"]
+        images << picture["image"]
         picture.delete("image")
       end
     end
@@ -40,13 +40,13 @@ class MonumentsController < ApplicationController
 
     unless session["monument_files"].nil?
       @monument.pictures.each_with_index do |picture_model, i|
-        img = images[i.to_s]
+        img = images[i]
         if img.nil?
           File.open(session["monument_files"][i.to_s]) do |f|
             picture_model.image = f
           end
         else
-          picture_model.image = images[i.to_s]
+          picture_model.image = img
           session["monument_files"][i.to_s] = picture_model.image.file.file
         end
       end
