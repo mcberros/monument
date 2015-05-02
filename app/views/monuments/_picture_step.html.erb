@@ -1,0 +1,24 @@
+<h2>Picture</h2>
+<%= f.fields_for :pictures do |builder| %>
+    <%= render 'pictures', :builder => builder %>
+    <%= link_to '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>'.html_safe , '#', class: 'btn btn-default pull-left add-link', title: 'Create picture' %>
+<% end %>
+
+<script>
+  var the_fields = '<%= escape_javascript(generate_field(f , :pictures)) %>';
+  $(function() {
+    $('.remove-link').click(function(e) {
+      e.preventDefault();
+      $(this).prev("input[type=hidden]").val("1");
+      $(this).closest(".picture").hide();
+    });
+
+    $('.add-link').click(function(e) {
+      e.preventDefault();
+      var new_id = new Date().getTime();
+      var regexp = new RegExp("new_pictures", "g");
+      $(this).before(the_fields.replace(regexp, new_id));
+    });
+  });
+</script>
+

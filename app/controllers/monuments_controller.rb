@@ -26,6 +26,7 @@ class MonumentsController < ApplicationController
     is_finished = false
     session[:monument_params].deep_merge!(monument_params) unless params[:monument].nil?
     @monument = Monument.new session[:monument_params]
+
     @monument.current_step = session[:monument_step]
     if @monument.valid?
       if params[:previous_button]
@@ -112,6 +113,6 @@ class MonumentsController < ApplicationController
   end
 
   def monument_params
-    params.require(:monument).permit(:name, :description, :monument_collection_id, :category_id, :public, :previous_button)
+    params.require(:monument).permit(:name, :description, :monument_collection_id, :category_id, :public, :previous_button, pictures_attributes: [ :name, :description, :date ])
   end
 end

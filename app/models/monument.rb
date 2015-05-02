@@ -3,6 +3,9 @@ class Monument < ActiveRecord::Base
 	belongs_to :monument_collection
 	belongs_to :category
 
+	has_many :pictures, dependent: :destroy
+	accepts_nested_attributes_for :pictures, :reject_if => lambda { |p| p[:name].blank? }, :allow_destroy => true
+
 	validates :name, presence: true, :if => lambda { |monument| monument.current_step == "information" }
 
 	attr_writer :current_step
@@ -28,7 +31,7 @@ class Monument < ActiveRecord::Base
 	end
 
   def steps
-    %w[information confirmation]
+    %w[information picture confirmation]
   end
 
 end
