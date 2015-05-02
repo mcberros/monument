@@ -1,5 +1,5 @@
 class Picture < ActiveRecord::Base
 	belongs_to :monument
 
-	# validates :name, presence: true
+	validates :name, presence: true
 end
