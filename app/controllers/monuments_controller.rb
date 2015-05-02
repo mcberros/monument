@@ -58,14 +58,15 @@ class MonumentsController < ApplicationController
   end
 
   def update
-    if @monument.monument_collection.user != current_user
-      render status: 403, text: 'Forbidden monument'
-    end
-
     is_finished = false
+
     session[:monument_params].deep_merge!(monument_params) unless params[:monument].nil?
 
     @monument.attributes = session[:monument_params]
+
+    if @monument.monument_collection.user != current_user
+      render status: 403, text: 'Forbidden monument'
+    end
 
     @monument.current_step = session[:monument_step]
     if @monument.valid?
@@ -85,15 +86,6 @@ class MonumentsController < ApplicationController
       session[:monument_step] = session[:monument_params] = nil
       redirect_to monuments_path, notice: 'Monument updated'
     end
-
-
-
-
-    # if @monument.update monument_params
-    #   redirect_to monuments_path, notice: 'Monument updated'
-    # else
-    #   render :edit
-    # end
   end
 
   def destroy
@@ -113,6 +105,6 @@ class MonumentsController < ApplicationController
   end
 
   def monument_params
-    params.require(:monument).permit(:name, :description, :monument_collection_id, :category_id, :public, :previous_button, pictures_attributes: [ :name, :description, :date ])
+    params.require(:monument).permit(:name, :description, :monument_collection_id, :category_id, :public, :previous_button, pictures_attributes: [ :id, :name, :description, :date, :_destroy ])
   end
 end
