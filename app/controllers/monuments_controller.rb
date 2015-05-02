@@ -13,7 +13,13 @@ class MonumentsController < ApplicationController
   end
 
   def stream
-    @monuments = Monument.where(public: true)
+    if params[:search]
+      @monuments = Monument.joins(:category, :monument_collection)
+                           .uniq.where(public: true)
+                           .where('categories.name = ? OR monument_collections.name = ?', params[:search][:criteria] , params[:search][:criteria])
+    else
+      @monuments = Monument.where(public: true)
+    end
   end
 
   def new

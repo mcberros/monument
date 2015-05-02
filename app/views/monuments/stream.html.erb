@@ -1,5 +1,10 @@
 <h1>Published monuments</h1>
 
+<%= form_tag(stream_path, method: 'get', id: 'search_form') do %>
+  <%= search_field(:search, :criteria) %>
+  <%= submit_tag("Search") %>
+<% end %>
+
 <table class="table">
   <thead>
     <tr>
