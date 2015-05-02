@@ -1,0 +1,24 @@
+<h1>Published monuments</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @monuments.each do |monument| %>
+      <tr>
+        <td><%= monument.name %></td>
+        <td>
+          <ul class="list-unstyled">
+            <% monument.pictures.each do |picture| %>
+              <li><%= image_tag picture.image.url %></li>
+            <% end %>
+          </ul>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

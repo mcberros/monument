@@ -12,6 +12,10 @@ class MonumentsController < ApplicationController
     end
   end
 
+  def stream
+    @monuments = Monument.where(public: true)
+  end
+
   def new
     if MonumentCollection.count == 0
       redirect_to new_monument_collection_path, notice: "Please, create first a monument collection"

@@ -1,15 +1,14 @@
 Rails.application.routes.draw do
 
-  root :to => 'monument_collections#index'
+  # root :to => 'monument_collections#index'
+  root :to => 'monuments#stream'
 
   resources :categories
   resources :monument_collections
 
-  resources :monuments do
-    member do
-      post :stream
-    end
-  end
+  resources :monuments
+
+  get 'stream' => 'monuments#stream', :as => :stream
 
   resources :pictures, only: [:index] do
     member do
