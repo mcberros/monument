@@ -36,7 +36,7 @@ describe 'Users' do
     fill_in 'Password', with: '345'
     fill_in 'Password confirmation', with: '345'
 
-    click_button 'Update User'
+    click_button 'Save'
 
     user.reload
 
@@ -66,7 +66,7 @@ describe 'Users' do
     fill_in 'Password', with: '345'
     fill_in 'Password confirmation', with: '345'
 
-    click_button 'Create User'
+    click_button 'Save'
 
     expect(page).to have_content('Login')
 

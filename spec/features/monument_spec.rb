@@ -89,14 +89,14 @@ describe 'Monuments' do
         expect(page).to have_content('Palaces')
 	      check 'Public'
 
-	      click_button 'Create Monument'
+	      click_button 'Save'
 
 	      expect(page).to have_content('Alhambra')
 	    end
 
 	    it 'after trying to create without all the necessary data, the form is shown' do
 
-    	  click_button 'Create Monument'
+    	  click_button 'Save'
 
 	      expect(page).to have_content("Name can't be blank")
 	      expect(page).to have_content('New Monument')
@@ -126,7 +126,7 @@ describe 'Monuments' do
 
       fill_in 'Name', with: 'Alhambra'
 
-      click_button 'Update Monument'
+      click_button 'Save'
 
       expect(page).to have_content('Monument updated')
       expect(page).not_to have_content('Cathedral')
@@ -136,7 +136,7 @@ describe 'Monuments' do
     it 'after trying to update with empty data, the form is shown' do
 
       fill_in 'Name', with: ''
-      click_button 'Update Monument'
+      click_button 'Save'
 
       expect(page).to have_content("Name can't be blank")
       expect(page).to have_content('Edit Monument')

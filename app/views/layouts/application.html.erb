@@ -2,30 +2,39 @@
 <html>
 <head>
   <title>Monument</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
   <%= csrf_meta_tags %>
 </head>
 <body>
-
-<div id="nav">
-  <% if current_user %>
-    <%= link_to 'Monument collections', monument_collections_path %>
-    <%= link_to 'Monuments', monuments_path %>
-    <%= link_to 'Categories', categories_path %>
-    <%= link_to current_user.email, edit_user_path(current_user.id) %>
-    <%= link_to "Logout", :logout, method: :post %>
-  <% else %>
-    <%= link_to "Register", new_user_path %> |
-    <%= link_to "Login", :login %>
-  <% end %>
-</div>
-<div>
-  <p id="notice"><%= flash[:notice] %></p>
-  <p id="alert"><%= flash[:alert] %></p>
-</div>
-
-<%= yield %>
-
+  <div class="wrapper">
+    <nav class="navbar navbar-default">
+      <% if current_user %>
+        <ul class="nav navbar-nav">
+          <%= link_to 'Monument collections', monument_collections_path %>
+          <%= link_to 'Monuments', monuments_path %>
+          <%= link_to 'Categories', categories_path %>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <%= link_to current_user.email, edit_user_path(current_user.id) %>
+          <%= link_to "Logout", :logout, method: :post %>
+        </ul>
+      <% else %>
+      <ul class="nav navbar-nav navbar-right">
+        <%= link_to "Register", new_user_path %> |
+        <%= link_to "Login", :login %>
+      </ul>
+      <% end %>
+    </nav>
+    <div class="container">
+      <div>
+        <p id="notice"><%= flash[:notice] %></p>
+        <p id="alert"><%= flash[:alert] %></p>
+      </div>
+      <%= yield %>
+    </div>
+  </div>
 </body>
 </html>

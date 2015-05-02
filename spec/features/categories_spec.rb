@@ -62,7 +62,7 @@ describe 'Categories' do
 
 	    fill_in 'Name', with: 'Palace'
 
-	    click_button 'Create Category'
+	    click_button 'Save'
 
 	    expect(page).to have_content('Category created')
 	    expect(page).to have_content('Cathedrals')
@@ -71,7 +71,7 @@ describe 'Categories' do
 
 	  it 'after trying to create without all the necessary data, the form is shown' do
 
-	    click_button 'Create Category'
+	    click_button 'Save'
 
 	    expect(page).to have_content("Name can't be blank")
 	    expect(page).to have_content('New Category')
@@ -96,7 +96,7 @@ describe 'Categories' do
 
 	    fill_in 'Name', with: 'Palace'
 
-	    click_button 'Update Category'
+	    click_button 'Save'
 
 	    expect(page).to have_content('Category updated')
 	    expect(page).not_to have_content('Cathedrals')
@@ -106,7 +106,7 @@ describe 'Categories' do
 	  it 'after trying to update with empty data, the form is shown' do
 
 	  	fill_in 'Name', with: ''
-	    click_button 'Update Category'
+	    click_button 'Save'
 
 	    expect(page).to have_content("Name can't be blank")
 	    expect(page).to have_content('Edit Category')

@@ -62,7 +62,7 @@ describe 'Monument Collections' do
 
 	    fill_in 'Name', with: 'Summer 2015'
 
-	    click_button 'Create Monument collection'
+	    click_button 'Save'
 
 	    expect(page).to have_content('Collection created')
 	    expect(page).to have_content('Winter')
@@ -71,7 +71,7 @@ describe 'Monument Collections' do
 
 	  it 'after trying to create without all the necessary data, the form is shown' do
 
-	    click_button 'Create Monument collection'
+	    click_button 'Save'
 
 	    expect(page).to have_content("Name can't be blank")
 	    expect(page).to have_content('New Collection')
@@ -96,7 +96,7 @@ describe 'Monument Collections' do
 
 	    fill_in 'Name', with: 'Summer 2015'
 
-	    click_button 'Update Monument collection'
+			click_button 'Save'
 
 	    expect(page).to have_content('Collection updated')
 	    expect(page).not_to have_content('Winter')
@@ -106,7 +106,7 @@ describe 'Monument Collections' do
 	  it 'after trying to update with empty data, the form is shown' do
 
 	  	fill_in 'Name', with: ''
-	    click_button 'Update Monument collection'
+			click_button 'Save'
 
 	    expect(page).to have_content("Name can't be blank")
 	    expect(page).to have_content('Edit Collection')
