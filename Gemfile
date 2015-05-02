@@ -2,11 +2,10 @@ source 'https://rubygems.org'
 
 ruby '2.2.2'
 
-# gem 'activerecord-session_store'
 gem 'activesupport-json_encoder'
 gem 'carrierwave'
 gem 'coffee-rails'
-# gem 'rails_12factor'
+gem 'rails_12factor'
 gem 'jbuilder', '~> 2.0'
 gem 'jquery-rails'
 gem 'pg'
