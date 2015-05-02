@@ -18,11 +18,11 @@
   </div>
   <div class="form-group">
     <%= f.label :monument_collection %><br>
-    <%= f.collection_select(:monument_collection_id, MonumentCollection.where(user_id: current_user.id), :id, :name) %>
+    <%= f.collection_select(:monument_collection_id, MonumentCollection.where(user_id: current_user.id), :id, :name, {}, {:class=>'form-control'}) %>
   </div>
   <div class="form-group">
     <%= f.label :category %><br>
-    <%= f.collection_select(:category_id, Category.where(user_id: current_user.id), :id, :name) %>
+    <%= f.collection_select(:category_id, Category.where(user_id: current_user.id), :id, :name, {}, {:class=>'form-control'}) %>
   </div>
   <div class="checkbox">
     <%= f.check_box :public %>
