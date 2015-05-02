@@ -5,7 +5,6 @@ ruby '2.2.2'
 gem 'activesupport-json_encoder'
 gem 'carrierwave'
 gem 'coffee-rails'
-gem 'rails_12factor'
 gem 'jbuilder', '~> 2.0'
 gem 'jquery-rails'
 gem 'pg'
@@ -14,6 +13,10 @@ gem "rmagick"
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'sorcery'
+
+group :production do
+  gem 'rails_12factor'
+end
 
 group :development, :test do
   gem 'byebug'
