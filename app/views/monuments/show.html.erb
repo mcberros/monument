@@ -7,25 +7,7 @@
   <p> Public: <%= @monument.public %></p>
 </p>
 
-<strong>Pictures</strong>
-<table class="table">
-	<thead>
-    <tr>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Date</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @monument.pictures.each do |picture| %>
-      <tr>
-        <td><%= picture.name %></td>
-        <td><%= picture.description %></td>
-        <td><%= picture.date %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<%= render 'show_pictures', monument: @monument %>
 
 <%= link_to 'Edit', edit_monument_path(@monument) %> |
 <%= link_to 'Back', monuments_path %>

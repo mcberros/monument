@@ -1,0 +1,19 @@
+<strong>Pictures</strong>
+<table class="table">
+	<thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @monument.pictures.each do |picture| %>
+      <tr>
+        <td><%= picture.name %></td>
+        <td><%= picture.description %></td>
+        <td><%= picture.date %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

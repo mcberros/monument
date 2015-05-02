@@ -5,8 +5,4 @@
 <p> Collection: <%= h @monument.monument_collection.name %></p>
 <p> Category: <%= h @monument.category.name %></p>
 
-<% @monument.pictures.each do |picture| %>
-  <li>Name: <%= h picture.name %></li>
-  <li>Description: <%= h picture.description %></li>
-  <li>Date: <%= h picture.date %></li>
-<% end %>
+<%= render 'show_pictures', monument: @monument %>
