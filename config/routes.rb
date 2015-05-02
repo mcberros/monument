@@ -4,7 +4,12 @@ Rails.application.routes.draw do
 
   resources :categories
   resources :monument_collections
-  resources :monuments
+
+  resources :monuments do
+    member do
+      post :stream
+    end
+  end
 
   resources :pictures, only: [:index] do
     member do
@@ -12,7 +17,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :user_sessions
+  resources :user_sessions, only: [:new, :create, :destroy]
 
   resources :users
 
