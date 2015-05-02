@@ -133,7 +133,7 @@ describe 'Monument Collections' do
 
 	    expect(page).to have_content('Winter')
 
-	    click_link 'Destroy'
+	    find('.glyphicon-remove').click
 
 	    accept_modal_window
 		end
@@ -152,6 +152,7 @@ describe 'Monument Collections' do
 
 		  it 'the Delete link does not delete the monument collection' do
 
+		  	sleep 1
 		    expect(page).to have_content('Winter')
     		expect(page).to have_content('Please delete the monuments before deleting the monument collection.')
 

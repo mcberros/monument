@@ -1,6 +1,6 @@
 <h1>Monuments</h1>
 
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>Name</th>
@@ -14,7 +14,7 @@
         <td><%= monument.name %></td>
         <td><%= link_to 'Show', monument %></td>
         <td><%= link_to 'Edit', edit_monument_path(monument) %></td>
-        <td><%= link_to 'Destroy', monument, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>'.html_safe , monument, method: :delete, title: 'Delete monument', data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

@@ -133,7 +133,7 @@ describe 'Categories' do
 
 	    expect(page).to have_content('Cathedrals')
 
-	    click_link 'Destroy'
+	    find('.glyphicon-remove').click
 
 	    accept_modal_window
 		end

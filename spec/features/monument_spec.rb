@@ -159,7 +159,7 @@ describe 'Monuments' do
 
       visit monuments_path
 
-      click_link 'Destroy'
+      find('.glyphicon-remove').click
 
       accept_modal_window
 
