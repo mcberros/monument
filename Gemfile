@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 ruby '2.2.2'
 
 gem 'coffee-rails'
+gem 'rails_12factor'
 gem 'jbuilder', '~> 2.0'
 gem 'jquery-rails'
 gem 'pg'
