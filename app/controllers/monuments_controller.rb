@@ -10,7 +10,6 @@ class MonumentsController < ApplicationController
     if @monument.monument_collection.user != current_user
       render status: 403, text: 'Forbidden monument'
     end
-    byebug
   end
 
   def new
@@ -18,6 +17,7 @@ class MonumentsController < ApplicationController
       redirect_to new_monument_collection_path, notice: "Please, create first a monument collection"
     else
       session[:monument_params] ||= {}
+      session["monument_files"] ||= {}
       @monument = Monument.new(session[:monument_params])
       @monument.current_step = session[:monument_step]
     end
@@ -25,23 +25,30 @@ class MonumentsController < ApplicationController
 
   def create
     is_finished = false
-    session[:monument_params].deep_merge!(monument_params) unless params[:monument].nil?
-
     images = {}
-    unless session[:monument_params]["pictures_attributes"].nil?
-      session[:monument_params]["pictures_attributes"].each_pair do |k, picture|
+
+    unless params[:monument].nil? or params[:monument]["pictures_attributes"].nil?
+      params[:monument]["pictures_attributes"].each_pair do |k, picture|
         images[k] = picture["image"]
         picture.delete("image")
       end
     end
 
+    session[:monument_params].deep_merge!(monument_params) unless params[:monument].nil?
+
     @monument = Monument.new session[:monument_params]
 
-    unless session[:monument_params]["pictures_attributes"].nil?
+    unless session["monument_files"].nil?
       @monument.pictures.each_with_index do |picture_model, i|
-        picture_model.image = images[i.to_s]
-        session[:monument_params]["pictures_attributes"][i.to_s]["image"] = picture_model.image
-        #session[:image_processed_cached] = picture_model.image_original.url(:image_processed)
+        img = images[i.to_s]
+        if img.nil?
+          File.open(session["monument_files"][i.to_s]) do |f|
+            picture_model.image = f
+          end
+        else
+          picture_model.image = images[i.to_s]
+          session["monument_files"][i.to_s] = picture_model.image.file.file
+        end
       end
     end
 
@@ -50,11 +57,6 @@ class MonumentsController < ApplicationController
       if params[:previous_button]
         @monument.previous_step
       elsif @monument.last_step?
-        byebug
-        @monument.pictures.each_with_index do |picture_model, i|
-          picture_model.image = session[:monument_params]["pictures_attributes"][i.to_s]["image"]
-        end
-        byebug
         is_finished = @monument.save
       else
         @monument.next_step
@@ -65,7 +67,7 @@ class MonumentsController < ApplicationController
     unless is_finished
       render :new
     else
-      session[:monument_step] = session[:monument_params] = nil
+      session[:monument_step] = session[:monument_params] = session["monument_files"] = nil
       redirect_to monuments_path, notice: 'Monument created'
     end
   end
