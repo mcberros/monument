@@ -39,7 +39,7 @@ describe 'Monuments' do
     it 'shows the info for a monument' do
       visit monuments_path
 
-      click_link 'Show'
+      click_link "#{monument_1.name}"
 
       expect(page).to have_content('Cathedral of Sevilla')
       expect(page).to have_content('Summer - Sevilla')

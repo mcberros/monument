@@ -1,7 +1,7 @@
 <%= form_for @category do |f| %>
 	<% if @category.errors.any? %>
     <div>
-      <ul>
+      <ul class="alert alert-danger" role="alert">
       <% @category.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>

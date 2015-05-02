@@ -30,7 +30,7 @@ describe 'Categories' do
 	  it 'shows the categories for the logged user' do
 	    visit categories_path
 
-	    click_link 'Show'
+	    click_link "#{category_1.name}"
 
 	    expect(page).to have_content('Cathedrals')
 	  end

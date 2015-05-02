@@ -1,7 +1,7 @@
 <%= form_for @monument_collection do |f| %>
 	<% if @monument_collection.errors.any? %>
     <div>
-      <ul>
+      <ul class="alert alert-danger" role="alert">
       <% @monument_collection.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>

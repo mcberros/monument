@@ -30,7 +30,7 @@ describe 'Monument Collections' do
 	  it 'shows the monument collections for the logged user' do
 	    visit monument_collections_path
 
-	    click_link 'Show'
+	    click_link "#{monument_collection_1.name}"
 
 	    expect(page).to have_content('Summer')
 	  end
