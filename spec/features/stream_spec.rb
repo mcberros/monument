@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Stream', :focus do
+describe 'Stream' do
 	let!(:user_1) { create(:user) }
   let!(:user_2) { create(:user) }
 
