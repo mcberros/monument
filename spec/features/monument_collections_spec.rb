@@ -146,17 +146,5 @@ describe 'Monument Collections' do
 
 		  end
 		end
-
-		context 'the collection has monuments' do
-			let!(:monument) { create :monument, monument_collection: monument_collection_1 }
-
-		  it 'the Delete link does not delete the monument collection' do
-
-		  	sleep 1
-		    expect(page).to have_content('Winter')
-    		expect(page).to have_content('Please delete the monuments before deleting the monument collection.')
-
-		  end
-		end
 	end
 end

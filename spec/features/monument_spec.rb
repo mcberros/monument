@@ -89,14 +89,26 @@ describe 'Monuments' do
         expect(page).to have_content('Palaces')
 	      check 'Public'
 
-	      click_button 'Save'
+	      click_button 'Next'
+
+        fill_in 'Name', with: 'Sun'
+        attach_file('monument_pictures_attributes_0_image', "#{Rails.root}/spec/files/alhambra.jpg")
+
+        click_button 'Next'
 
 	      expect(page).to have_content('Alhambra')
+        expect(page).to have_content('Sun')
+
+        click_button 'Save'
+
+        expect(current_path).to eq(monuments_path)
+        expect(page).to have_content('Alhambra')
+
 	    end
 
 	    it 'after trying to create without all the necessary data, the form is shown' do
 
-    	  click_button 'Save'
+    	  click_button 'Next'
 
 	      expect(page).to have_content("Name can't be blank")
 	      expect(page).to have_content('New Monument')
@@ -107,7 +119,9 @@ describe 'Monuments' do
   context 'Update monument', :js do
 
     let!(:monument_collection_1) { create(:monument_collection, name: 'Winter', user: user_1) }
-    let!(:monument_1) { create(:monument, name: 'Cathedral of Sevilla', monument_collection: monument_collection_1) }
+    let!(:category_1) { create :category, name: 'Palaces', user: user_1 }
+    let!(:monument_1) { create(:monument, name: 'Cathedral of Sevilla', monument_collection: monument_collection_1, category: category_1) }
+
 
   	let!(:monument_collection_2) { create(:monument_collection, name: 'Granada', user: user_2) }
 		let!(:monument_2) { create(:monument, name: 'Acueducto', monument_collection: monument_collection_2) }
@@ -126,17 +140,23 @@ describe 'Monuments' do
 
       fill_in 'Name', with: 'Alhambra'
 
+      click_button 'Next'
+
+      click_button 'Next'
+
+      expect(page).not_to have_content('Cathedral')
+      expect(page).to have_content('Alhambra')
+
       click_button 'Save'
 
-      expect(page).to have_content('Monument updated')
-      expect(page).not_to have_content('Cathedral')
+      expect(current_path).to eq(monuments_path)
       expect(page).to have_content('Alhambra')
     end
 
     it 'after trying to update with empty data, the form is shown' do
 
       fill_in 'Name', with: ''
-      click_button 'Save'
+      click_button 'Next'
 
       expect(page).to have_content("Name can't be blank")
       expect(page).to have_content('Edit Monument')
