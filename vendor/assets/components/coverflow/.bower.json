@@ -1,0 +1,36 @@
+{
+  "name": "Vanderlee Coverflow",
+  "version": "1.1.8",
+  "homepage": "https://github.com/vanderlee/coverflow",
+  "authors": [
+    "Martijn van der Lee <martijn@vanderlee.com>"
+  ],
+  "description": "A jQuery-based Coverflow components with optional mousewheel, CSS3 interpolation, transformations, touch swipe, reflections and more.",
+  "main": "jquery.coverflow.js",
+  "keywords": [
+    "jquery",
+    "coverflow"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": ">=1.7.0",
+    "jqueryui": ">=1.9.0"
+  },
+  "_release": "1.1.8",
+  "_resolution": {
+    "type": "version",
+    "tag": "1.1.8",
+    "commit": "653a48fd8f97f5d71435cd3a321874e46ce9b16d"
+  },
+  "_source": "git://github.com/vanderlee/coverflow.git",
+  "_target": "~1.1.8",
+  "_originalSource": "coverflow",
+  "_direct": true
+}
