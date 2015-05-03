@@ -18,7 +18,6 @@ FactoryGirl.define do
     name 'Cathedral of Sevilla'
     description 'The third biggest cathedral in the world'
     public false
-    approved false
     monument_collection
   end
 
