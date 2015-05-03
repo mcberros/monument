@@ -2,26 +2,58 @@
 
 <%= form_tag(stream_path, method: 'get', id: 'search_form') do %>
   <%= search_field(:search, :criteria) %>
-  <%= submit_tag("Search") %>
+  <%= submit_tag("Search", class: 'btn btn-default') %>
 <% end %>
 
-<% @monuments.each do |monument| %>
-  <ul class="list-unstyled">
-    <li>
-      <h3> Name: <%= monument.name %> </h3>
-      <div class='div-stream'>
-        <div class="coverflow">
-          <% monument.pictures.each do |picture| %>
-            <div><%= image_tag picture.image.stream.url %></div>
-          <% end %>
+<div class="btn-group" role="group">
+  <button type="button" class="btn btn-default cover-flow-button">Cover Flow</button>
+  <button type="button" class="btn btn-default list-view-button">List</button>
+</div>
+
+<div class='container-cover-flow'>
+  <% @monuments.each do |monument| %>
+    <ul class="list-unstyled">
+      <li>
+        <h3> Name: <%= monument.name %> </h3>
+        <div class='div-stream'>
+          <div class="coverflow">
+            <% monument.pictures.each do |picture| %>
+              <div><%= image_tag picture.image.stream.url %></div>
+            <% end %>
+          </div>
         </div>
-      </div>
-    </li>
-  </ul>
-<% end %>
+      </li>
+    </ul>
+  <% end %>
+</div>
+
+<div class='container-list hidden'>
+  <% @monuments.each do |monument| %>
+    <ul class="list-unstyled">
+      <li>
+        <h3> Name: <%= monument.name %> </h3>
+          <ul class="list-unstyled">
+            <% monument.pictures.each do |picture| %>
+              <li><%= image_tag picture.image.stream.url %></li>
+            <% end %>
+          </ul>
+      </li>
+    </ul>
+  <% end %>
+</div>
 
 <script>
     $(function() {
-        $('.coverflow').coverflow();
+      $('.coverflow').coverflow();
+
+      $('.list-view-button').click(function(e) {
+        $('.container-cover-flow').addClass('hidden')
+        $('.container-list').removeClass('hidden')
+      });
+
+      $('.cover-flow-button').click(function(e) {
+        $('.container-list').addClass('hidden')
+        $('.container-cover-flow').removeClass('hidden')
+      });
     });
 </script>
