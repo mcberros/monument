@@ -3,9 +3,7 @@ class PicturesController < ApplicationController
   def index
     render status: 403, text: 'Forbidden' unless current_user.admin
 
-    @pictures = Picture.joins(:monument)
-                .where('monuments.public = ?', true)
-                .where(approved: false)
+    @pictures = Picture.not_approved
   end
 
   def approve

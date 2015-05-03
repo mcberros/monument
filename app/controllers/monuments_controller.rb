@@ -3,7 +3,7 @@ class MonumentsController < ApplicationController
   before_action :find_monument, only: [:show, :edit, :update, :destroy]
 
   def index
-    @monuments = Monument.joins(:monument_collection).where('monument_collections.user_id = ?', current_user.id)
+    @monuments = Monument.by_user(current_user.id)
   end
 
   def show
@@ -161,6 +161,7 @@ class MonumentsController < ApplicationController
   end
 
   def monument_params
-    params.require(:monument).permit(:name, :description, :monument_collection_id, :category_id, :public, :previous_button, pictures_attributes: [ :id, :name, :description, :date, :_destroy, :image, :image_cache ])
+    params.require(:monument).permit(:name, :description, :monument_collection_id, :category_id, :public, :previous_button,
+                                     pictures_attributes: [ :id, :name, :description, :date, :_destroy, :image, :image_cache ])
   end
 end

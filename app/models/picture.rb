@@ -4,4 +4,9 @@ class Picture < ActiveRecord::Base
 	validates :name, presence: true
 
 	mount_uploader :image, PictureUploader
+
+	scope :not_approved, -> { joins(:monument)
+						                .where('monuments.public = ?', true)
+						                .where(approved: false)
+						              }
 end

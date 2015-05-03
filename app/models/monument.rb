@@ -17,6 +17,10 @@ class Monument < ActiveRecord::Base
                            					.where('pictures.approved = ?', true)
                            					.where('categories.name = ? OR monument_collections.name = ?', criteria, criteria)}
 
+  scope :by_user, -> (user_id) { joins(:monument_collection)
+  															 .where('monument_collections.user_id = ?', user_id)
+  															}
+
 	attr_writer :current_step
 
   def current_step
