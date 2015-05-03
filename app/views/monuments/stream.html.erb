@@ -5,25 +5,23 @@
   <%= submit_tag("Search") %>
 <% end %>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Name</th>
-    </tr>
-  </thead>
+<% @monuments.each do |monument| %>
+  <ul class="list-unstyled">
+    <li>
+      <h3> Name: <%= monument.name %> </h3>
+      <div class='div-stream'>
+        <div class="coverflow">
+          <% monument.pictures.each do |picture| %>
+            <div><%= image_tag picture.image.stream.url %></div>
+          <% end %>
+        </div>
+      </div>
+    </li>
+  </ul>
+<% end %>
 
-  <tbody>
-    <% @monuments.each do |monument| %>
-      <tr>
-        <td><%= monument.name %></td>
-        <td>
-          <ul class="list-unstyled">
-            <% monument.pictures.each do |picture| %>
-              <li><%= image_tag picture.image.url %></li>
-            <% end %>
-          </ul>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<script>
+    $(function() {
+        $('.coverflow').coverflow();
+    });
+</script>

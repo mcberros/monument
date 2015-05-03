@@ -15,3 +15,5 @@
 //= require_tree .
 
 //= require datetimepicker/jquery.datetimepicker
+//= require jqueryui
+//= require coverflow
