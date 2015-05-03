@@ -21,7 +21,7 @@ describe 'Users' do
     login_with(user.email, '123')
 
     expect(current_path).to eq(root_path)
-    expect(page).to have_content('Monument Collections')
+    expect(page).to have_content('Published monuments')
     expect(page).to have_content(user.email)
   end
 
@@ -44,7 +44,7 @@ describe 'Users' do
 
     login_with(user.email, '345')
 
-    expect(page).to have_content('Monument Collections')
+    expect(page).to have_content('Published monuments')
     expect(page).to have_content(user.email)
   end
 
