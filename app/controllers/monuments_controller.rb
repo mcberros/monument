@@ -7,9 +7,7 @@ class MonumentsController < ApplicationController
   end
 
   def show
-    if @monument.monument_collection.user != current_user
-      render status: 403, text: 'Forbidden monument'
-    end
+    check_forbidden
   end
 
   def stream
@@ -81,9 +79,7 @@ class MonumentsController < ApplicationController
   end
 
   def edit
-    if @monument.monument_collection.user != current_user
-      render status: 403, text: 'Forbidden monument'
-    end
+    check_forbidden
 
     session[:monument_params] ||= {}
     session["monument_files"] ||= {}
@@ -145,9 +141,7 @@ class MonumentsController < ApplicationController
   end
 
   def destroy
-    if @monument.monument_collection.user != current_user
-      render status: 403, text: 'Forbidden monument'
-    end
+    check_forbidden
 
     @monument.destroy
 
@@ -155,6 +149,12 @@ class MonumentsController < ApplicationController
   end
 
   private
+
+  def check_forbidden
+    if @monument.monument_collection.user != current_user
+      render status: 403, text: 'Forbidden monument'
+    end
+  end
 
   def find_monument
     @monument = Monument.find(params[:id])
