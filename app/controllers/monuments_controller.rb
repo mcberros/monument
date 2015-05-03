@@ -14,12 +14,9 @@ class MonumentsController < ApplicationController
 
   def stream
     if params[:search]
-      @monuments = Monument.joins(:category, :monument_collection, :pictures)
-                           .uniq.where(public: true)
-                           .where('pictures.approved = ?', true)
-                           .where('categories.name = ? OR monument_collections.name = ?', params[:search][:criteria] , params[:search][:criteria])
+      @monuments = Monument.search_by(params[:search][:criteria])
     else
-      @monuments = Monument.joins(:pictures).uniq.where('pictures.approved = ?', true).where(public: true)
+      @monuments = Monument.publish.with_approved_pictures
     end
   end
 

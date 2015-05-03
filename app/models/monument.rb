@@ -8,6 +8,15 @@ class Monument < ActiveRecord::Base
 
 	validates :name, presence: true, :if => lambda { |monument| monument.current_step == "information" }
 
+	scope :publish, -> { where public: true }
+
+	scope :with_approved_pictures, -> { joins(:pictures).uniq.where('pictures.approved = ?', true) }
+
+	scope :search_by, -> (criteria) { joins(:category, :monument_collection, :pictures)
+                           					.uniq.publish
+                           					.where('pictures.approved = ?', true)
+                           					.where('categories.name = ? OR monument_collections.name = ?', criteria, criteria)}
+
 	attr_writer :current_step
 
   def current_step

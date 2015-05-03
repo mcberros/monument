@@ -9,6 +9,10 @@ FactoryGirl.define do
     password_confirmation "123"
   end
 
+  factory :admin, parent: :user do
+    admin true
+  end
+
   factory :monument_collection do
     name 'Summer'
     user
@@ -24,5 +28,10 @@ FactoryGirl.define do
   factory :category do
     name 'Cathedrals'
     user
+  end
+
+  factory :picture do
+    name 'Sun'
+    monument
   end
 end
