@@ -141,6 +141,7 @@ describe 'Monuments' do
 
         click_button 'Next'
 
+        byebug
         expect(page).to have_content('Alhambra')
         expect(page).not_to have_content('Sun')
 
