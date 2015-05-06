@@ -113,6 +113,45 @@ describe 'Monuments' do
 	      expect(page).to have_content("Name can't be blank")
 	      expect(page).to have_content('New Monument')
 	    end
+
+      it 'goes to the summary, then picture step, and remove picture', :focus do
+
+        expect(page).not_to have_content('Rivers')
+
+        fill_in 'Name', with: 'Alhambra'
+        fill_in 'Description', with: 'Wonderful palace'
+        expect(page).to have_content('Palaces')
+        check 'Public'
+
+        click_button 'Next'
+
+        fill_in 'Name', with: 'Sun'
+        attach_file('monument_pictures_attributes_0_image', "#{Rails.root}/spec/files/alhambra.jpg")
+
+        click_button 'Next'
+
+        expect(page).to have_content('Alhambra')
+        expect(page).to have_content('Sun')
+
+        click_button 'Back'
+
+        find('.glyphicon-remove').click
+
+        accept_modal_window
+
+        byebug
+
+        click_button 'Next'
+
+        expect(page).to have_content('Alhambra')
+        expect(page).not_to have_content('Sun')
+
+        click_button 'Save'
+
+        expect(current_path).to eq(monuments_path)
+        expect(page).to have_content('Alhambra')
+
+      end
 	  end
   end
 
