@@ -18,7 +18,9 @@
         <div class='div-stream'>
           <div class="coverflow">
             <% monument.pictures.each do |picture| %>
-              <div><%= image_tag picture.image.stream.url %></div>
+              <% unless picture.image.thumb.url.nil? %>
+                <div><%= image_tag picture.image.stream.url %></div>
+              <% end %>
             <% end %>
           </div>
         </div>
@@ -34,7 +36,9 @@
         <h3> Name: <%= monument.name %> </h3>
           <ul class="list-unstyled">
             <% monument.pictures.each do |picture| %>
-              <li><%= image_tag picture.image.stream.url %></li>
+              <% unless picture.image.thumb.url.nil? %>
+                <li><%= image_tag picture.image.stream.url %></li>
+              <% end %>
             <% end %>
           </ul>
       </li>

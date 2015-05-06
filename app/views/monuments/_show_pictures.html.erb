@@ -14,7 +14,9 @@
         <td><%= picture.name %></td>
         <td><%= picture.description %></td>
         <td><%= picture.date %></td>
-        <td><%= image_tag picture.image.thumb.url %></td>
+        <% unless picture.image.thumb.url.nil? %>
+          <td><%= image_tag picture.image.thumb.url %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

@@ -13,7 +13,9 @@
     <% @pictures.each do |picture| %>
       <tr>
         <td><%= picture.name %></td>
-        <td><%= image_tag picture.image.thumb.url %></td>
+        <% unless picture.image.thumb.url.nil? %>
+          <td><%= image_tag picture.image.thumb.url %></td>
+        <% end %>
         <td>
           <%= form_tag(approve_picture_path(picture)) do %>
             <%= submit_tag("Approve") %>
