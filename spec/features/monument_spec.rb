@@ -114,7 +114,7 @@ describe 'Monuments' do
 	      expect(page).to have_content('New Monument')
 	    end
 
-      it 'goes to the summary, then picture step, and remove picture', :focus do
+      it 'goes to the summary, then picture step, and remove picture' do
 
         expect(page).not_to have_content('Rivers')
 
@@ -138,8 +138,6 @@ describe 'Monuments' do
         find('.glyphicon-remove').click
 
         accept_modal_window
-
-        byebug
 
         click_button 'Next'
 
