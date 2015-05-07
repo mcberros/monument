@@ -30,6 +30,12 @@ class MonumentsController < ApplicationController
   end
 
   def create
+    if params[:cancel_button]
+      session[:monument_step] = session[:monument_params] = session["monument_files"] = nil
+      redirect_to monuments_path
+      return
+    end
+
     is_finished = false
 
     images = []
