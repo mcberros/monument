@@ -1,8 +1,8 @@
 <h2>Picture</h2>
 <%= f.fields_for :pictures do |builder| %>
     <%= render 'pictures', :builder => builder %>
-    <%= link_to '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>'.html_safe , '#', class: 'btn btn-default pull-left add-link', title: 'Create picture' %>
 <% end %>
+<%= link_to '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>'.html_safe , '#', class: 'btn btn-default pull-left add-link', title: 'Create picture' %>
 
 <script>
   var the_fields = '<%= escape_javascript(generate_field(f , :pictures)) %>';
