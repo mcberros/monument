@@ -1,7 +1,25 @@
 <h2>Picture</h2>
-<%= f.fields_for :pictures do |builder| %>
-    <%= render 'pictures', :builder => builder %>
-<% end %>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Image</th>
+      <th>Date</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <%= f.fields_for :pictures do |builder| %>
+      <tr>
+        <td>
+          <%= render 'pictures', :builder => builder %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 <%= link_to '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>'.html_safe , '#', class: 'btn btn-default pull-left add-link', title: 'Create picture' %>
 
 <script>
@@ -19,9 +37,13 @@
       e.preventDefault();
       var new_id = new Date().getTime();
       var regexp = new RegExp("new_pictures", "g");
-      $(this).before(the_fields.replace(regexp, new_id));
+      console.log($(this))
+      console.log(the_fields)
+      $(this).prev("table").children("tbody").children("tr").last().after(the_fields.replace(regexp, new_id));
       $('#monument_pictures_attributes_'+new_id+'_date').datetimepicker();
     });
   });
 </script>
+
+
 

@@ -1,24 +1,18 @@
-<div class='picture'>
-  <div class="form-group">
-    <%= builder.label :name %><br>
-    <%= builder.text_field :name, class: "form-control" %>
-  </div>
-  <div class="form-group">
-    <%= builder.label :description %><br>
-    <%= builder.text_field :description, class: "form-control" %>
-  </div>
-  <div class="form-group">
-    <%= builder.label :image %><br>
-    <%= builder.file_field :image %>
-    <% unless builder.object.image.thumb.url.nil? %>
-      <%= image_tag builder.object.image.thumb.url %>
-    <% end %>
-  </div>
-  <div class="form-group">
-    <%= builder.label :date %><br>
-    <%= builder.text_field :date, class: "form-control datepicker" %>
-  </div>
+<tr class='picture'>
+  <td><%= builder.text_field :name, class: "form-control" %></td>
+  <td><%= builder.text_field :description, class: "form-control" %></td>
+  <td>
+    <ul class="list-inline">
+      <li><%= builder.file_field :image %></li>
+      <% unless builder.object.image.thumb.url.nil? %>
+        <li>
+          <%= image_tag builder.object.image.thumb.url %>
+        </li>
+      <% end %>
+    </ul>
+  </td>
+  <td><%= builder.text_field :date, class: "form-control datepicker" %></td>
+  <td><%= link_to '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>'.html_safe, '#', class:'remove-link', title: 'Remove picture', data: { confirm: 'Are you sure?' } %></td>
   <%= builder.hidden_field :id %>
   <%= builder.hidden_field :_destroy %>
-  <%= link_to '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>'.html_safe, '#', class:'remove-link', title: 'Remove picture', data: { confirm: 'Are you sure?' } %>
-</div>
+</tr>
