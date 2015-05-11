@@ -150,6 +150,49 @@ describe 'Monuments' do
         expect(page).to have_content('Alhambra')
 
       end
+
+      it 'in picture step add extra picture,
+      goes to the summary, then picture step, then summary step
+      and the number of pictures is 2' do
+
+        expect(page).not_to have_content('Rivers')
+
+        fill_in 'Name', with: 'Alhambra'
+        fill_in 'Description', with: 'Wonderful palace'
+        expect(page).to have_content('Palaces')
+        check 'Public'
+
+        click_button 'Next'
+
+        fill_in 'monument_pictures_attributes_0_name', with: 'Sun'
+        attach_file('monument_pictures_attributes_0_image', "#{Rails.root}/spec/files/alhambra.jpg")
+
+        find('.glyphicon-plus').click
+
+        fill_in 'monument_pictures_attributes_1_name', with: 'Moon'
+        attach_file('monument_pictures_attributes_1_image', "#{Rails.root}/spec/files/alhambra.jpg")
+
+        click_button 'Next'
+
+        expect(page).to have_content('Alhambra')
+        expect(page).to have_content('Sun', count: 1)
+        # expect(page).to have_selector('table tr', count: 4)
+        expect(page).to have_content('Moon', count: 1)
+
+        click_button 'Back'
+
+        click_button 'Next'
+
+        expect(page).to have_content('Alhambra')
+        expect(page).to have_content('Sun', count: 1)
+        expect(page).to have_content('Moon', count: 1)
+
+        click_button 'Save'
+
+        expect(current_path).to eq(monuments_path)
+        expect(page).to have_content('Alhambra')
+
+      end
 	  end
   end
 
