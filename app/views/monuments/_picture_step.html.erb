@@ -31,7 +31,7 @@
 
     $('.add-link').click(function(e) {
       e.preventDefault();
-      var new_id = new Date().getTime();
+      var new_id = $('.picture').size();
       var regexp = new RegExp("new_pictures", "g");
       $(this).prev("table").children("tbody").children("tr").last().after(the_fields.replace(regexp, new_id));
       $('#monument_pictures_attributes_'+new_id+'_date').datetimepicker();
