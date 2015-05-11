@@ -1,5 +1,5 @@
 <h2>Picture</h2>
-<table class="table">
+<table class="table pictures">
   <thead>
     <tr>
       <th>Name</th>
@@ -12,11 +12,7 @@
 
   <tbody>
     <%= f.fields_for :pictures do |builder| %>
-      <tr>
-        <td>
-          <%= render 'pictures', :builder => builder %>
-        </td>
-      </tr>
+      <%= render 'pictures', :builder => builder %>
     <% end %>
   </tbody>
 </table>
@@ -27,9 +23,9 @@
   $(function() {
     $('.datepicker').datetimepicker();
 
-    $('.remove-link').click(function(e) {
+    $('.pictures').on("click", ".remove-link", function(e) {
       e.preventDefault();
-      $(this).prev("input[type=hidden]").val("1");
+      $(this).parent().prev("input[type=hidden]").val("1");
       $(this).closest(".picture").hide();
     });
 
@@ -37,8 +33,6 @@
       e.preventDefault();
       var new_id = new Date().getTime();
       var regexp = new RegExp("new_pictures", "g");
-      console.log($(this))
-      console.log(the_fields)
       $(this).prev("table").children("tbody").children("tr").last().after(the_fields.replace(regexp, new_id));
       $('#monument_pictures_attributes_'+new_id+'_date').datetimepicker();
     });

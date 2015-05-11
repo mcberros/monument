@@ -91,7 +91,7 @@ describe 'Monuments' do
 
 	      click_button 'Next'
 
-        fill_in 'Name', with: 'Sun'
+        fill_in 'monument_pictures_attributes_0_name', with: 'Sun'
         attach_file('monument_pictures_attributes_0_image', "#{Rails.root}/spec/files/alhambra.jpg")
 
         click_button 'Next'
@@ -125,7 +125,7 @@ describe 'Monuments' do
 
         click_button 'Next'
 
-        fill_in 'Name', with: 'Sun'
+        fill_in 'monument_pictures_attributes_0_name', with: 'Sun'
         attach_file('monument_pictures_attributes_0_image', "#{Rails.root}/spec/files/alhambra.jpg")
 
         click_button 'Next'
@@ -141,7 +141,6 @@ describe 'Monuments' do
 
         click_button 'Next'
 
-        byebug
         expect(page).to have_content('Alhambra')
         expect(page).not_to have_content('Sun')
 
