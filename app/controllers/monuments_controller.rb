@@ -38,15 +38,9 @@ class MonumentsController < ApplicationController
 
     is_finished = false
 
-    images = []
-    unless params[:monument].nil? or params[:monument]["pictures_attributes"].nil?
-      params[:monument]["pictures_attributes"].each_pair do |k, picture|
-        images << picture["image"]
-        picture.delete("image")
-      end
-    end
+    images = is_there_picture_params? ? move_images_from_params_to_array : []
 
-    session[:monument_params].deep_merge!(monument_params) unless params[:monument].nil?
+    merge_session_with_monument_params
 
     @monument = Monument.new session[:monument_params]
 
@@ -94,6 +88,8 @@ class MonumentsController < ApplicationController
   end
 
   def update
+    check_forbidden
+
     if params[:cancel_button]
       session[:monument_step] = session[:monument_params] = session["monument_files"] = nil
       redirect_to monuments_path
@@ -102,21 +98,11 @@ class MonumentsController < ApplicationController
 
     is_finished = false
 
-    images = []
-    unless params[:monument].nil? or params[:monument]["pictures_attributes"].nil?
-      params[:monument]["pictures_attributes"].each_pair do |k, picture|
-        images << picture["image"]
-        picture.delete("image")
-      end
-    end
+    images = is_there_picture_params? ? move_images_from_params_to_array : []
 
     session[:monument_params].deep_merge!(monument_params) unless params[:monument].nil?
 
     @monument.attributes = session[:monument_params]
-
-    if @monument.monument_collection.user != current_user
-      render status: 403, text: 'Forbidden monument'
-    end
 
     unless session["monument_files"].nil?
       @monument.pictures.each_with_index do |picture_model, i|
@@ -170,6 +156,23 @@ class MonumentsController < ApplicationController
 
   def find_monument
     @monument = Monument.find(params[:id])
+  end
+
+  def move_images_from_params_to_array
+    params[:monument]["pictures_attributes"]
+        .map{|k,picture| picture.delete("image")}
+  end
+
+  def merge_session_with_monument_params
+    session[:monument_params].deep_merge!(monument_params) if is_there_monument_params?
+  end
+
+  def is_there_monument_params?
+    !params[:monument].nil?
+  end
+
+  def is_there_picture_params?
+    is_there_monument_params? && !params[:monument]["pictures_attributes"].nil?
   end
 
   def monument_params
