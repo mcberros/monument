@@ -30,41 +30,8 @@ class MonumentsController < ApplicationController
   end
 
   def create
-    if params[:cancel_button]
-      session[:monument_step] = session[:monument_params] = session["monument_files"] = nil
-      redirect_to monuments_path
-      return
-    end
-
-    is_finished = false
-
-    images = is_there_picture_params? ? move_images_from_params_to_array : []
-
-    merge_session_with_monument_params if is_there_monument_params?
-
-    @monument = Monument.new session[:monument_params]
-
-    store_in_session_uploaded_images_path(images)
-
-    @monument.current_step = session[:monument_step]
-
-    if @monument.valid?
-      if params[:previous_button]
-        @monument.previous_step
-      elsif @monument.last_step?
-        populate_model_pictures_with_files_in_session
-        is_finished = @monument.save
-      else
-        @monument.next_step
-      end
-      session[:monument_step] = @monument.current_step
-    end
-
-    unless is_finished
-      render :new
-    else
-      session[:monument_step] = session[:monument_params] = session["monument_files"] = nil
-      redirect_to monuments_path, notice: 'Monument created'
+    multistep_control(:new, 'Monument created') do
+      @monument = Monument.new session[:monument_params]
     end
   end
 
@@ -80,40 +47,8 @@ class MonumentsController < ApplicationController
   def update
     check_forbidden
 
-    if params[:cancel_button]
-      session[:monument_step] = session[:monument_params] = session["monument_files"] = nil
-      redirect_to monuments_path
-      return
-    end
-
-    is_finished = false
-
-    images = is_there_picture_params? ? move_images_from_params_to_array : []
-
-    merge_session_with_monument_params if is_there_monument_params?
-
-    @monument.attributes = session[:monument_params]
-
-    store_in_session_uploaded_images_path(images)
-
-    @monument.current_step = session[:monument_step]
-    if @monument.valid?
-      if params[:previous_button]
-        @monument.previous_step
-      elsif @monument.last_step?
-        populate_model_pictures_with_files_in_session
-        is_finished = @monument.save
-      else
-        @monument.next_step
-      end
-      session[:monument_step] = @monument.current_step
-    end
-
-    unless is_finished
-      render :edit
-    else
-      session[:monument_step] = session[:monument_params] = session["monument_files"] = nil
-      redirect_to monuments_path, notice: 'Monument updated'
+    multistep_control(:edit, 'Monument updated') do
+      @monument.attributes = session[:monument_params]
     end
   end
 
@@ -126,6 +61,44 @@ class MonumentsController < ApplicationController
   end
 
   private
+
+  def multistep_control(form_to_render, notice_msg)
+    if params[:cancel_button]
+      session[:monument_step] = session[:monument_params] = session["monument_files"] = nil
+      redirect_to monuments_path
+      return
+    end
+
+    is_finished = false
+
+    images = is_there_picture_params? ? move_images_from_params_to_array : []
+
+    merge_session_with_monument_params if is_there_monument_params?
+
+    yield
+
+    store_in_session_uploaded_images_path(images)
+    populate_model_pictures_with_files_in_session
+
+    @monument.current_step = session[:monument_step]
+    if @monument.valid?
+      if params[:previous_button]
+        @monument.previous_step
+      elsif @monument.last_step?
+        is_finished = @monument.save
+      else
+        @monument.next_step
+      end
+      session[:monument_step] = @monument.current_step
+    end
+
+    unless is_finished
+      render form_to_render
+    else
+      session[:monument_step] = session[:monument_params] = session["monument_files"] = nil
+      redirect_to monuments_path, notice: notice_msg
+    end
+  end
 
   def check_forbidden
     if @monument.monument_collection.user != current_user
