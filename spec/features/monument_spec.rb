@@ -106,6 +106,29 @@ describe 'Monuments' do
 
 	    end
 
+      it 'can create pictures without image' do
+
+        expect(page).not_to have_content('Rivers')
+
+        fill_in 'Name', with: 'Alhambra'
+        fill_in 'Description', with: 'Wonderful palace'
+
+        click_button 'Next'
+
+        fill_in 'monument_pictures_attributes_0_name', with: 'Sun'
+
+        click_button 'Next'
+
+        expect(page).to have_content('Alhambra')
+        expect(page).to have_content('Sun')
+
+        click_button 'Save'
+
+        expect(current_path).to eq(monuments_path)
+        expect(page).to have_content('Alhambra')
+
+      end
+
 	    it 'after trying to create without all the necessary data, the form is shown' do
 
     	  click_button 'Next'
@@ -176,7 +199,6 @@ describe 'Monuments' do
 
         expect(page).to have_content('Alhambra')
         expect(page).to have_content('Sun', count: 1)
-        # expect(page).to have_selector('table tr', count: 4)
         expect(page).to have_content('Moon', count: 1)
 
         click_button 'Back'

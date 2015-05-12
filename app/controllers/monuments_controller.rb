@@ -40,29 +40,19 @@ class MonumentsController < ApplicationController
 
     images = is_there_picture_params? ? move_images_from_params_to_array : []
 
-    merge_session_with_monument_params
+    merge_session_with_monument_params if is_there_monument_params?
 
     @monument = Monument.new session[:monument_params]
 
-    unless session["monument_files"].nil?
-      @monument.pictures.each_with_index do |picture_model, i|
-        img = images[i]
-        if img.nil?
-          File.open(session["monument_files"][i.to_s]) do |f|
-            picture_model.image = f
-          end unless session["monument_files"][i.to_s].nil?
-        else
-          picture_model.image = img
-          session["monument_files"][i.to_s] = picture_model.image.file.file
-        end
-      end
-    end
+    store_in_session_uploaded_images_path(images)
 
     @monument.current_step = session[:monument_step]
+
     if @monument.valid?
       if params[:previous_button]
         @monument.previous_step
       elsif @monument.last_step?
+        populate_model_pictures_with_files_in_session
         is_finished = @monument.save
       else
         @monument.next_step
@@ -100,29 +90,18 @@ class MonumentsController < ApplicationController
 
     images = is_there_picture_params? ? move_images_from_params_to_array : []
 
-    session[:monument_params].deep_merge!(monument_params) unless params[:monument].nil?
+    merge_session_with_monument_params if is_there_monument_params?
 
     @monument.attributes = session[:monument_params]
 
-    unless session["monument_files"].nil?
-      @monument.pictures.each_with_index do |picture_model, i|
-        img = images[i]
-        if img.nil?
-          File.open(session["monument_files"][i.to_s]) do |f|
-            picture_model.image = f
-          end unless session["monument_files"][i.to_s].nil?
-        else
-          picture_model.image = img
-          session["monument_files"][i.to_s] = picture_model.image.file.file
-        end
-      end
-    end
+    store_in_session_uploaded_images_path(images)
 
     @monument.current_step = session[:monument_step]
     if @monument.valid?
       if params[:previous_button]
         @monument.previous_step
       elsif @monument.last_step?
+        populate_model_pictures_with_files_in_session
         is_finished = @monument.save
       else
         @monument.next_step
@@ -159,12 +138,41 @@ class MonumentsController < ApplicationController
   end
 
   def move_images_from_params_to_array
+    # TODO: We need to test if the picture has image
     params[:monument]["pictures_attributes"]
         .map{|k,picture| picture.delete("image")}
   end
 
   def merge_session_with_monument_params
-    session[:monument_params].deep_merge!(monument_params) if is_there_monument_params?
+    session[:monument_params].deep_merge!(monument_params)
+  end
+
+  def populate_model_pictures_with_files_in_session
+    if is_there_files_in_session?
+      @monument.pictures.each_with_index do |picture_model, i|
+        unless session["monument_files"][i.to_s].nil?
+          File.open(session["monument_files"][i.to_s]) do |f|
+            picture_model.image = f
+          end
+        end
+      end
+    end
+  end
+
+  def store_in_session_uploaded_images_path(images_param)
+    if is_there_files_in_session?
+      @monument.pictures.each_with_index do |picture_model, i|
+        img = images_param[i]
+        unless img.nil?
+          picture_model.image = img
+          session["monument_files"][i.to_s] = picture_model.image.file.file
+        end
+      end
+    end
+  end
+
+  def is_there_files_in_session?
+    !session["monument_files"].nil?
   end
 
   def is_there_monument_params?
