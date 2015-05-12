@@ -10,9 +10,9 @@
   <% end %>
   <%= render "#{@monument.current_step}_step", :f => f %>
   <div>
-    <%= f.submit 'Next', class: 'btn btn-primary' unless @monument.last_step? %>
-    <%= f.submit 'Save', class: 'btn btn-primary' if @monument.last_step? %>
-    <%= f.submit "Back", :name => "previous_button" unless @monument.first_step?  %>
-    <%= f.submit "Cancel", :name => "cancel_button" %>
+    <%= f.submit 'Next', name: "next_button", class: 'btn btn-primary' unless @monument.last_step? %>
+    <%= f.submit 'Save', name: "save_button", class: 'btn btn-primary' if @monument.last_step? %>
+    <%= f.submit "Back", name: "previous_button" unless @monument.first_step?  %>
+    <%= f.submit "Cancel", name: "cancel_button" %>
   </div>
 <% end %>
