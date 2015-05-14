@@ -1,11 +1,19 @@
 <h1>Published monuments</h1>
 
-<%= form_tag(stream_path, method: 'get', id: 'search_form') do %>
-  <%= search_field(:search, :criteria) %>
-  <%= submit_tag("Search", class: 'btn btn-default') %>
-<% end %>
+<div class="form-group">
+  <div class="row">
+    <div class="col-md-8">
+      <%= form_tag(stream_path, method: 'get', id: 'search_form') do %>
+        <div class="col-md-7">
+          <%= search_field(:search, :criteria, class: "form-control") %>
+        </div>
+        <%= submit_tag("Search", class: 'btn btn-default') %>
+      <% end %>
+    </div>
+  </div>
+</div>
 
-<div class="btn-group" role="group">
+<div class="btn-group col-md-8" role="group">
   <button type="button" class="btn btn-default cover-flow-button">Cover Flow</button>
   <button type="button" class="btn btn-default list-view-button">List</button>
 </div>
