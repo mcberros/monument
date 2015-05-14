@@ -7,9 +7,7 @@ class CategoriesController < ApplicationController
   end
 
   def show
-    if @category.user != current_user
-      render status: 403, text: 'Forbidden category'
-    end
+    check_forbidden
   end
 
   def new
@@ -26,16 +24,11 @@ class CategoriesController < ApplicationController
   end
 
   def edit
-    if @category.user != current_user
-      render status: 403, text: 'Forbidden category'
-    end
+    check_forbidden
   end
 
   def update
-
-    if @category.user != current_user
-      render status: 403, text: 'Forbidden category'
-    end
+    check_forbidden
 
     if @category.update category_params
       redirect_to categories_path, notice: 'Category updated'
@@ -51,6 +44,12 @@ class CategoriesController < ApplicationController
   end
 
   private
+
+  def check_forbidden
+    if @category.user != current_user
+      render status: 403, text: 'Forbidden category'
+    end
+  end
 
   def find_category
     @category = Category.find(params[:id])

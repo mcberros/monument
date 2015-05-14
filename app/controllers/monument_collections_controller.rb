@@ -7,9 +7,7 @@ class MonumentCollectionsController < ApplicationController
   end
 
   def show
-    if @monument_collection.user != current_user
-      render status: 403, text: 'Forbidden monument category'
-    end
+    check_forbidden
   end
 
   def new
@@ -26,15 +24,11 @@ class MonumentCollectionsController < ApplicationController
   end
 
   def edit
-    if @monument_collection.user != current_user
-      render status: 403, text: 'Forbidden monument category'
-    end
+    check_forbidden
   end
 
   def update
-    if @monument_collection.user != current_user
-      render status: 403, text: 'Forbidden monument category'
-    end
+    check_forbidden
 
     if @monument_collection.update monument_collection_params
       redirect_to monument_collections_path, notice: 'Collection updated'
@@ -56,6 +50,12 @@ class MonumentCollectionsController < ApplicationController
   end
 
   private
+
+  def check_forbidden
+    if @monument_collection.user != current_user
+      render status: 403, text: 'Forbidden monument category'
+    end
+  end
 
   def find_monument_collection
     @monument_collection = MonumentCollection.find(params[:id])

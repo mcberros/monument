@@ -3,15 +3,13 @@ class UsersController < ApplicationController
 
   skip_before_filter :require_login, only: [:new, :create]
 
-  def show
-  end
+  def show;end
 
   def new
     @user = User.new
   end
 
-  def edit
-  end
+  def edit;end
 
   def create
     @user = User.new(user_params)
