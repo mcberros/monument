@@ -71,149 +71,174 @@ describe 'Monuments' do
 	  context 'there is a monument_collection' do
 
 	  	let!(:monument_collection) { create :monument_collection, user: user_1 }
-      let!(:category) { create :category, name: 'Palaces', user: user_1 }
 
-      let!(:category_2) { create :category, name: 'Rivers', user: user_2 }
+      context 'there is no category' do
+        it 'the monument is created' do
+          visit monuments_path
+          find('.glyphicon-plus').click
 
-	  	before(:each) do
-	  		visit monuments_path
-	    	find('.glyphicon-plus').click
-	  	end
+          fill_in 'Name', with: 'Alhambra'
+          fill_in 'Description', with: 'Wonderful palace'
+          check 'Public'
 
-	    it 'after creating with all the necessary data, the list of monument collections is shown' do
+          click_button 'Next'
 
-        expect(page).not_to have_content('Rivers')
+          click_button 'Next'
 
-	      fill_in 'Name', with: 'Alhambra'
-	      fill_in 'Description', with: 'Wonderful palace'
-        expect(page).to have_content('Palaces')
-	      check 'Public'
+          expect(page).to have_content('Alhambra')
 
-	      click_button 'Next'
+          click_button 'Save'
 
-        fill_in 'monument_pictures_attributes_0_name', with: 'Sun'
-        attach_file('monument_pictures_attributes_0_image', "#{Rails.root}/spec/files/alhambra.jpg")
-
-        click_button 'Next'
-
-	      expect(page).to have_content('Alhambra')
-        expect(page).to have_content('Sun')
-
-        click_button 'Save'
-
-        expect(current_path).to eq(monuments_path)
-        expect(page).to have_content('Alhambra')
-
-	    end
-
-      it 'can create pictures without image' do
-
-        expect(page).not_to have_content('Rivers')
-
-        fill_in 'Name', with: 'Alhambra'
-        fill_in 'Description', with: 'Wonderful palace'
-
-        click_button 'Next'
-
-        fill_in 'monument_pictures_attributes_0_name', with: 'Sun'
-
-        click_button 'Next'
-
-        expect(page).to have_content('Alhambra')
-        expect(page).to have_content('Sun')
-
-        click_button 'Save'
-
-        expect(current_path).to eq(monuments_path)
-        expect(page).to have_content('Alhambra')
-
+          expect(current_path).to eq(monuments_path)
+          expect(page).to have_content('Alhambra')
+        end
       end
 
-	    it 'after trying to create without all the necessary data, the form is shown' do
+      context 'there is a category' do
+        let!(:category) { create :category, name: 'Palaces', user: user_1 }
 
-    	  click_button 'Next'
+        let!(:category_2) { create :category, name: 'Rivers', user: user_2 }
 
-	      expect(page).to have_content("Name can't be blank")
-	      expect(page).to have_content('New Monument')
-	    end
+  	  	before(:each) do
+  	  		visit monuments_path
+  	    	find('.glyphicon-plus').click
+  	  	end
 
-      it 'goes to the summary, then picture step, and remove picture' do
+  	    it 'after creating with all the necessary data, the list of monument collections is shown' do
 
-        expect(page).not_to have_content('Rivers')
+          expect(page).not_to have_content('Rivers')
 
-        fill_in 'Name', with: 'Alhambra'
-        fill_in 'Description', with: 'Wonderful palace'
-        expect(page).to have_content('Palaces')
-        check 'Public'
+  	      fill_in 'Name', with: 'Alhambra'
+  	      fill_in 'Description', with: 'Wonderful palace'
+          expect(page).to have_content('Palaces')
+  	      check 'Public'
 
-        click_button 'Next'
+  	      click_button 'Next'
 
-        fill_in 'monument_pictures_attributes_0_name', with: 'Sun'
-        attach_file('monument_pictures_attributes_0_image', "#{Rails.root}/spec/files/alhambra.jpg")
+          fill_in 'monument_pictures_attributes_0_name', with: 'Sun'
+          attach_file('monument_pictures_attributes_0_image', "#{Rails.root}/spec/files/alhambra.jpg")
 
-        click_button 'Next'
+          click_button 'Next'
 
-        expect(page).to have_content('Alhambra')
-        expect(page).to have_content('Sun')
+  	      expect(page).to have_content('Alhambra')
+          expect(page).to have_content('Sun')
 
-        click_button 'Back'
+          click_button 'Save'
 
-        find('.glyphicon-remove').click
+          expect(current_path).to eq(monuments_path)
+          expect(page).to have_content('Alhambra')
 
-        accept_modal_window
+  	    end
 
-        click_button 'Next'
+        it 'can create pictures without image' do
 
-        expect(page).to have_content('Alhambra')
-        expect(page).not_to have_content('Sun')
+          expect(page).not_to have_content('Rivers')
 
-        click_button 'Save'
+          fill_in 'Name', with: 'Alhambra'
+          fill_in 'Description', with: 'Wonderful palace'
 
-        expect(current_path).to eq(monuments_path)
-        expect(page).to have_content('Alhambra')
+          click_button 'Next'
 
-      end
+          fill_in 'monument_pictures_attributes_0_name', with: 'Sun'
 
-      it 'in picture step add extra picture,
-      goes to the summary, then picture step, then summary step
-      and the number of pictures is 2' do
+          click_button 'Next'
 
-        expect(page).not_to have_content('Rivers')
+          expect(page).to have_content('Alhambra')
+          expect(page).to have_content('Sun')
 
-        fill_in 'Name', with: 'Alhambra'
-        fill_in 'Description', with: 'Wonderful palace'
-        expect(page).to have_content('Palaces')
-        check 'Public'
+          click_button 'Save'
 
-        click_button 'Next'
+          expect(current_path).to eq(monuments_path)
+          expect(page).to have_content('Alhambra')
 
-        fill_in 'monument_pictures_attributes_0_name', with: 'Sun'
-        attach_file('monument_pictures_attributes_0_image', "#{Rails.root}/spec/files/alhambra.jpg")
+        end
 
-        find('.glyphicon-plus').click
+  	    it 'after trying to create without all the necessary data, the form is shown' do
 
-        fill_in 'monument_pictures_attributes_1_name', with: 'Moon'
-        attach_file('monument_pictures_attributes_1_image', "#{Rails.root}/spec/files/alhambra.jpg")
+      	  click_button 'Next'
 
-        click_button 'Next'
+  	      expect(page).to have_content("Name can't be blank")
+  	      expect(page).to have_content('New Monument')
+  	    end
 
-        expect(page).to have_content('Alhambra')
-        expect(page).to have_content('Sun', count: 1)
-        expect(page).to have_content('Moon', count: 1)
+        it 'goes to the summary, then picture step, and remove picture' do
 
-        click_button 'Back'
+          expect(page).not_to have_content('Rivers')
 
-        click_button 'Next'
+          fill_in 'Name', with: 'Alhambra'
+          fill_in 'Description', with: 'Wonderful palace'
+          expect(page).to have_content('Palaces')
+          check 'Public'
 
-        expect(page).to have_content('Alhambra')
-        expect(page).to have_content('Sun', count: 1)
-        expect(page).to have_content('Moon', count: 1)
+          click_button 'Next'
 
-        click_button 'Save'
+          fill_in 'monument_pictures_attributes_0_name', with: 'Sun'
+          attach_file('monument_pictures_attributes_0_image', "#{Rails.root}/spec/files/alhambra.jpg")
 
-        expect(current_path).to eq(monuments_path)
-        expect(page).to have_content('Alhambra')
+          click_button 'Next'
 
+          expect(page).to have_content('Alhambra')
+          expect(page).to have_content('Sun')
+
+          click_button 'Back'
+
+          find('.glyphicon-remove').click
+
+          accept_modal_window
+
+          click_button 'Next'
+
+          expect(page).to have_content('Alhambra')
+          expect(page).not_to have_content('Sun')
+
+          click_button 'Save'
+
+          expect(current_path).to eq(monuments_path)
+          expect(page).to have_content('Alhambra')
+
+        end
+
+        it 'in picture step add extra picture,
+        goes to the summary, then picture step, then summary step
+        and the number of pictures is 2' do
+
+          expect(page).not_to have_content('Rivers')
+
+          fill_in 'Name', with: 'Alhambra'
+          fill_in 'Description', with: 'Wonderful palace'
+          expect(page).to have_content('Palaces')
+          check 'Public'
+
+          click_button 'Next'
+
+          fill_in 'monument_pictures_attributes_0_name', with: 'Sun'
+          attach_file('monument_pictures_attributes_0_image', "#{Rails.root}/spec/files/alhambra.jpg")
+
+          find('.glyphicon-plus').click
+
+          fill_in 'monument_pictures_attributes_1_name', with: 'Moon'
+          attach_file('monument_pictures_attributes_1_image', "#{Rails.root}/spec/files/alhambra.jpg")
+
+          click_button 'Next'
+
+          expect(page).to have_content('Alhambra')
+          expect(page).to have_content('Sun', count: 1)
+          expect(page).to have_content('Moon', count: 1)
+
+          click_button 'Back'
+
+          click_button 'Next'
+
+          expect(page).to have_content('Alhambra')
+          expect(page).to have_content('Sun', count: 1)
+          expect(page).to have_content('Moon', count: 1)
+
+          click_button 'Save'
+
+          expect(current_path).to eq(monuments_path)
+          expect(page).to have_content('Alhambra')
+
+        end
       end
 	  end
   end
